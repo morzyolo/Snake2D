@@ -9,7 +9,6 @@ public class CellGrid : MonoBehaviour
     [SerializeField] private Vector2Int _gridSize;
     private CellItem[,] _cells;
 
-        
     private void Awake()
     {
         _cells = new CellItem[_gridSize.x, _gridSize.y];
@@ -17,24 +16,17 @@ public class CellGrid : MonoBehaviour
 
     public Vector2Int GetGridSize() => _gridSize;
 
+    public void RemoveRefFromCellGrid(Vector2Int position) => _cells[position.x, position.y] = null;
+
     public bool TrySetInCellGrid(CellItem cellItem, Vector2Int position)
     {
         try
         {
             if (_cells[position.x, position.y] is SnakeTail) return false;
 
-            if (_cells[position.x, position.y] == null)
-            {
-                _cells[position.x, position.y] = cellItem;
-                return true;
-            }
-
-            if (_cells[position.x, position.y] is Cherry || cellItem is SnakeTail) return false;
-            {
-                _cells[position.x, position.y] = cellItem;
-                FoodEaten?.Invoke(cellItem);
-                return true;
-            }
+            _cells[position.x, position.y] = cellItem;
+            if (_cells[position.x, position.y] is Cherry || cellItem is SnakeTail) FoodEaten?.Invoke(cellItem);
+            return true;
         }
         catch (System.IndexOutOfRangeException)
         {
