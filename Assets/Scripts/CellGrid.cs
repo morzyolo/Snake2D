@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CellGrid : MonoBehaviour
 {
-    public Action<CellItem> FoodEaten; 
+    public Action<CellItem> FoodEatenAction; 
 
     [SerializeField] private float _cellSize;
     [SerializeField] private Vector2Int _gridSize;
@@ -25,7 +25,7 @@ public class CellGrid : MonoBehaviour
             if (_cells[position.x, position.y] is SnakeTail) return false;
 
             _cells[position.x, position.y] = cellItem;
-            if (_cells[position.x, position.y] is Cherry || cellItem is SnakeTail) FoodEaten?.Invoke(cellItem);
+            if (_cells[position.x, position.y] is Cherry && cellItem is SnakeTail) FoodEatenAction?.Invoke(cellItem);
             return true;
         }
         catch (System.IndexOutOfRangeException)

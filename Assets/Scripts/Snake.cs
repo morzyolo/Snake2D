@@ -1,21 +1,28 @@
 using UnityEngine;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 public class Snake : MonoBehaviour
 {
+    [SerializeField] private InputManager _inputManager;
     [SerializeField] private CellGrid _cellGrid;
     [SerializeField] private SnakeTail _snakeTailPrefab;
 
+    [SerializeField] private float _moveDelay;
     private List<SnakeTail> _tails;
+
+    private Vector2Int _moveDirection;
 
     private void Start()
     {
-        _cellGrid.FoodEaten += EatFood;
+        _inputManager.ChangeDirectionAction += ChangeDirection;
+        _cellGrid.FoodEatenAction += EatFood;
 
         _tails = new List<SnakeTail>();
+        _moveDirection = Vector2Int.right;
+
         Vector2Int gridsize = _cellGrid.GetGridSize();
         Vector3Int spawnPosition = new Vector3Int(4, 0);
-
         for (int i = 0; i < 3; i++)
         {
             SnakeTail snakeTail = Instantiate(_snakeTailPrefab, this.transform);
@@ -26,26 +33,44 @@ public class Snake : MonoBehaviour
         }
     }
 
-    public void MoveSnake(Vector2Int direction)
+    public async void MoveSnake()
     {
-        Vector2Int movePosition = new Vector2Int((int)_tails[0].transform.position.x + direction.x, (int)_tails[0].transform.position.y + direction.y);
-        Vector2Int lastTailPosition = new Vector2Int((int)_tails[^1].transform.position.x, (int)_tails[^1].transform.position.y);
+        bool canMove = true;
+        Vector2Int currentDirection = _moveDirection;
 
-        if (_cellGrid.TrySetInCellGrid(_tails[^1], movePosition))
+        while (canMove)
         {
-            _tails[^1].transform.localPosition = new Vector3(movePosition.x, movePosition.y);
+            Vector2Int movePosition = new Vector2Int((int)_tails[0].transform.position.x + currentDirection.x,
+                (int)_tails[0].transform.position.y + currentDirection.y);
+
+            int lastIndex = _tails.Count - 1;
+            Vector2Int lastTailPosition = new Vector2Int((int)_tails[lastIndex].transform.position.x,
+                (int)_tails[lastIndex].transform.position.y);
+
             _cellGrid.RemoveRefFromCellGrid(lastTailPosition);
-            SnakeTail tail = _tails[^1];
-            _tails.RemoveAt(_tails.Count - 1);
-            _tails.Insert(0, tail);
+            canMove = _cellGrid.TrySetInCellGrid(_tails[lastIndex], movePosition);
+            if (canMove)
+            {
+                _tails[lastIndex].transform.localPosition = new Vector3(movePosition.x, movePosition.y);
+                SnakeTail tail = _tails[lastIndex];
+                _tails.RemoveAt(lastIndex);
+                _tails.Insert(0, tail);
+            }
+
+            await Task.Delay((int)(_moveDelay * 1000));
+            if (Vector2Int.Scale(currentDirection, _moveDirection) == Vector2Int.zero)
+                currentDirection = _moveDirection;
         }
     }
 
     private void EatFood(CellItem food)
-    { }
+    { }  
+
+    private void ChangeDirection(Vector2Int direction) => _moveDirection = direction;
 
     private void OnDisable()
     {
-        _cellGrid.FoodEaten -= EatFood;
+        _inputManager.ChangeDirectionAction -= ChangeDirection;
+        _cellGrid.FoodEatenAction -= EatFood;
     }
 }
