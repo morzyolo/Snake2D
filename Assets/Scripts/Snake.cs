@@ -1,14 +1,18 @@
-using UnityEngine;
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
+    public Action<int> GameOverAction;
+
     [SerializeField] private InputManager _inputManager;
     [SerializeField] private CellGrid _cellGrid;
     [SerializeField] private SnakeTail _snakeTailPrefab;
 
     [SerializeField] private float _moveDelay;
+    private int _score;
     private List<SnakeTail> _tails;
 
     private Vector2Int _moveDirection;
@@ -18,6 +22,7 @@ public class Snake : MonoBehaviour
         _inputManager.ChangeDirectionAction += ChangeDirection;
         _cellGrid.FoodEatenAction += EatFood;
 
+        _score = 0;
         _tails = new List<SnakeTail>();
         _moveDirection = Vector2Int.right;
 
@@ -56,6 +61,11 @@ public class Snake : MonoBehaviour
                 _tails.RemoveAt(lastIndex);
                 _tails.Insert(0, tail);
             }
+            else
+            {
+                GameOverAction?.Invoke(_score);
+                break;
+            }
 
             await Task.Delay((int)(_moveDelay * 1000));
             if (Vector2Int.Scale(currentDirection, _moveDirection) == Vector2Int.zero)
@@ -64,7 +74,9 @@ public class Snake : MonoBehaviour
     }
 
     private void EatFood(CellItem food)
-    { }  
+    {
+        _score++;
+    }  
 
     private void ChangeDirection(Vector2Int direction) => _moveDirection = direction;
 
