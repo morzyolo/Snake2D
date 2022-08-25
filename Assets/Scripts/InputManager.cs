@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour, IBeginDragHandler, IDragHandler
 {
-    public Action<Vector2Int> ChangeDirectionAction;
+    public static Action<Vector2Int> ChangeDirectionAction;
 
     #if UNITY_EDITOR_WIN
     private void Update()

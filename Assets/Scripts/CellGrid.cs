@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class CellGrid : MonoBehaviour
 {
-    public Action<CellItem> FoodEatenAction; 
+    public static Action<CellItem> FoodEatenAction; 
 
-    [SerializeField] private float _cellSize;
     [SerializeField] private Vector2Int _gridSize;
     private CellItem[,] _cells;
 

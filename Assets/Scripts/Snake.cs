@@ -5,24 +5,21 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    public Action<int> GameOverAction;
+    public static Action GameOverAction;
 
-    [SerializeField] private InputManager _inputManager;
     [SerializeField] private CellGrid _cellGrid;
     [SerializeField] private SnakeTail _snakeTailPrefab;
 
     [SerializeField] private float _moveDelay;
-    private int _score;
     private List<SnakeTail> _tails;
 
     private Vector2Int _moveDirection;
 
     private void Start()
     {
-        _inputManager.ChangeDirectionAction += ChangeDirection;
-        _cellGrid.FoodEatenAction += EatFood;
+        InputManager.ChangeDirectionAction += ChangeDirection;
+        CellGrid.FoodEatenAction += EatFood;
 
-        _score = 0;
         _tails = new List<SnakeTail>();
         _moveDirection = Vector2Int.right;
 
@@ -63,7 +60,7 @@ public class Snake : MonoBehaviour
             }
             else
             {
-                GameOverAction?.Invoke(_score);
+                GameOverAction?.Invoke();
                 break;
             }
 
@@ -75,14 +72,13 @@ public class Snake : MonoBehaviour
 
     private void EatFood(CellItem food)
     {
-        _score++;
     }  
 
     private void ChangeDirection(Vector2Int direction) => _moveDirection = direction;
 
     private void OnDisable()
     {
-        _inputManager.ChangeDirectionAction -= ChangeDirection;
-        _cellGrid.FoodEatenAction -= EatFood;
+        InputManager.ChangeDirectionAction -= ChangeDirection;
+        CellGrid.FoodEatenAction -= EatFood;
     }
 }
