@@ -23,8 +23,9 @@ public class CellGrid : MonoBehaviour
         {
             if (_cells[position.x, position.y] is SnakeTail) return false;
 
+            if (_cells[position.x, position.y] is Cherry && cellItem is SnakeTail) 
+                FoodEatenAction?.Invoke(cellItem);
             _cells[position.x, position.y] = cellItem;
-            if (_cells[position.x, position.y] is Cherry && cellItem is SnakeTail) FoodEatenAction?.Invoke(cellItem);
             return true;
         }
         catch (System.IndexOutOfRangeException)

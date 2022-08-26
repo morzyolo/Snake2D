@@ -10,7 +10,7 @@ public class GameStateManager : MonoBehaviour
 
     private int _score;
 
-    private void Awake()
+    private void Start()
     {
         Snake.GameOverAction += LoseGame;
         _inputManager.gameObject.SetActive(false);
