@@ -5,35 +5,47 @@ public class GameStateManager : MonoBehaviour
 {
     [SerializeField] private Snake _snake;
     [SerializeField] private InputManager _inputManager;
-    [SerializeField] private Text _text;
-    [SerializeField] private Button _button;
+    [SerializeField] private Text _startNRestartText;
+    [SerializeField] private Text _scoreText;
+    [SerializeField] private Button _startNRestartButton;
 
     private int _score;
 
     private void Start()
     {
         Snake.GameOverAction += LoseGame;
+        CellGrid.FoodEatenAction += AddScore;
+
         _inputManager.gameObject.SetActive(false);
-        _button.onClick.AddListener(StartGame);
+        _startNRestartButton.onClick.AddListener(StartGame);
     }
 
     public void StartGame()
     {
         _score = 0;
+        _scoreText.text = $"Your Score: {_score}";
+
         _inputManager.gameObject.SetActive(true);
-        _button.gameObject.SetActive(false);
-        _text.text = "";
+        _startNRestartButton.gameObject.SetActive(false);
+        _startNRestartText.text = "";
         _snake.MoveSnake();
+    }
+
+    private void AddScore(CellItem cellItem = null)
+    {
+        _scoreText.text = $"Your Score: {++_score}";
     }
 
     private void LoseGame()
     {
-        _text.text = $"Your Score: {_score}";
-        _button.gameObject.SetActive(true);
+        _startNRestartText.text = $"Your Score: {_score}";
+        _startNRestartButton.gameObject.SetActive(true);
+        _startNRestartButton.onClick.AddListener(StartGame);
     }
 
     private void OnDisable()
     {
         Snake.GameOverAction -= LoseGame;
+        CellGrid.FoodEatenAction -= AddScore;
     }
 }
