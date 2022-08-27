@@ -24,14 +24,11 @@ public class Snake : MonoBehaviour
         _moveDirection = Vector2Int.right;
 
         Vector2Int gridsize = _cellGrid.GetGridSize();
-        Vector3Int spawnPosition = new Vector3Int(4, 0);
+        Vector2Int spawnPosition = new Vector2Int(2, gridsize.y / 2);
         for (int i = 0; i < 3; i++)
         {
-            SnakeTail snakeTail = Instantiate(_snakeTailPrefab, this.transform);
-            _cellGrid.TrySetInCellGrid(snakeTail, new Vector2Int(spawnPosition.x, spawnPosition.y));
-            snakeTail.transform.localPosition = spawnPosition;
-            _tails.Add(snakeTail);
-            spawnPosition.x--;
+            if (!TryInsertNewSnakeTail(spawnPosition)) break;
+            spawnPosition.x++;
         }
     }
 
@@ -41,7 +38,7 @@ public class Snake : MonoBehaviour
         _snakeGrow = false;
         Vector2Int currentDirection = _moveDirection;
 
-        while (canMove)
+        do
         {
             await Task.Delay((int)(_moveDelay * 1000));
             if (Vector2Int.Scale(currentDirection, _moveDirection) == Vector2Int.zero)
@@ -53,34 +50,36 @@ public class Snake : MonoBehaviour
             if (_snakeGrow)
             {
                 _snakeGrow = false;
-                SnakeTail newSnakeTail = Instantiate(_snakeTailPrefab, this.transform);
-                if (_cellGrid.TrySetInCellGrid(newSnakeTail, movePosition))
-                {
-                    newSnakeTail.transform.localPosition = new Vector3(movePosition.x, movePosition.y);
-                    _tails.Insert(0, newSnakeTail);
-                }
+                canMove = TryInsertNewSnakeTail(movePosition);
             }
             else
-            {
-                int lastIndex = _tails.Count - 1;
-                Vector2Int lastTailPosition = new Vector2Int((int)_tails[lastIndex].transform.position.x,
-                    (int)_tails[lastIndex].transform.position.y);
+                canMove = TryReplaceSnakeTail(movePosition);
+        } while (canMove);
 
-                _cellGrid.RemoveRefFromCellGrid(lastTailPosition);
-                canMove = _cellGrid.TrySetInCellGrid(_tails[lastIndex], movePosition);
-                if (canMove)
-                {
-                    _tails[lastIndex].transform.localPosition = new Vector3(movePosition.x, movePosition.y);
-                    SnakeTail tail = _tails[lastIndex];
-                    _tails.RemoveAt(lastIndex);
-                    _tails.Insert(0, tail);
-                }
-                else
-                {
-                    GameOverAction?.Invoke();
-                }
-            }
-        }
+        GameOverAction?.Invoke();
+    }
+
+    private bool TryInsertNewSnakeTail(Vector2Int spawnPosition)
+    {
+        SnakeTail snakeTail = Instantiate(_snakeTailPrefab, this.transform);
+
+        if (!_cellGrid.TrySetInCellGrid(snakeTail, spawnPosition)) return false;
+        
+        snakeTail.transform.localPosition = new Vector3(spawnPosition.x, spawnPosition.y);
+        _tails.Insert(0, snakeTail);
+        return true;
+    }
+
+    private bool TryReplaceSnakeTail(Vector2Int placePosition)
+    {
+        SnakeTail lastTail = _tails[^1];
+        _cellGrid.RemoveRefFromCellGrid(new Vector2Int((int)lastTail.transform.position.x, (int)lastTail.transform.position.y));
+        if (!_cellGrid.TrySetInCellGrid(lastTail, placePosition)) return false;
+
+        lastTail.transform.localPosition = new Vector3(placePosition.x, placePosition.y);
+        _tails.RemoveAt(_tails.Count - 1);
+        _tails.Insert(0, lastTail);
+        return true;
     }
 
     private void EatCherry()
