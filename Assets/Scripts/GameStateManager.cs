@@ -14,7 +14,7 @@ public class GameStateManager : MonoBehaviour
     private void Start()
     {
         Snake.GameOverAction += LoseGame;
-        CellGrid.FoodEatenAction += AddScore;
+        CellGrid.CherryEatenAction += AddScore;
 
         _inputManager.gameObject.SetActive(false);
         _startNRestartButton.onClick.AddListener(StartGame);
@@ -31,7 +31,7 @@ public class GameStateManager : MonoBehaviour
         _snake.MoveSnake();
     }
 
-    private void AddScore(CellItem cellItem = null)
+    private void AddScore()
     {
         _scoreText.text = $"Your Score: {++_score}";
     }
@@ -46,6 +46,6 @@ public class GameStateManager : MonoBehaviour
     private void OnDisable()
     {
         Snake.GameOverAction -= LoseGame;
-        CellGrid.FoodEatenAction -= AddScore;
+        CellGrid.CherryEatenAction -= AddScore;
     }
 }

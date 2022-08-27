@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CellGrid : MonoBehaviour
 {
-    public static Action<CellItem> FoodEatenAction; 
+    public static Action CherryEatenAction; 
 
     [SerializeField] private Vector2Int _gridSize;
     private CellItem[,] _cells;
@@ -24,7 +24,7 @@ public class CellGrid : MonoBehaviour
             if (_cells[position.x, position.y] is SnakeTail) return false;
 
             if (_cells[position.x, position.y] is Cherry && cellItem is SnakeTail) 
-                FoodEatenAction?.Invoke(cellItem);
+                CherryEatenAction?.Invoke();
             _cells[position.x, position.y] = cellItem;
             return true;
         }

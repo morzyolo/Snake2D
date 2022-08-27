@@ -9,29 +9,27 @@ public class FoodSpawner : MonoBehaviour
 
     private void Start()
     {
-        CellGrid.FoodEatenAction += SpawnCherry;
+        CellGrid.CherryEatenAction += SpawnCherry;
 
         _currentCherry = Instantiate(_cherryPrefab, this.transform);
-
         SpawnCherry();
     }
 
-    private void SpawnCherry(CellItem cellItem = null)
+    private void SpawnCherry()
     {
         Vector2Int spawnPosition;
         Vector2Int gridSize = _cellGrid.GetGridSize();
 
         do
         {
-            spawnPosition = new Vector2Int(Random.Range(gridSize.x / 4, gridSize.x * 3/4), Random.Range(gridSize.y / 4, gridSize.y * 3/4));
+            spawnPosition = new Vector2Int(Random.Range(0 , gridSize.x), Random.Range(0, gridSize.y));
         } while (!_cellGrid.TrySetInCellGrid(_currentCherry, spawnPosition));
-
 
         _currentCherry.transform.localPosition = new Vector3(spawnPosition.x, spawnPosition.y);
     }
 
     private void OnDisable()
     {
-        CellGrid.FoodEatenAction -= SpawnCherry;
+        CellGrid.CherryEatenAction -= SpawnCherry;
     }
 }
