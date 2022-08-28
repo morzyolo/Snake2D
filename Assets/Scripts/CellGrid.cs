@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class CellGrid : MonoBehaviour
 {
     public static Action CherryEatenAction; 
@@ -8,9 +9,63 @@ public class CellGrid : MonoBehaviour
     [SerializeField] private Vector2Int _gridSize;
     private CellItem[,] _cells;
 
+    private Vector3[] _vetices;
+    private Mesh _mesh;
+
     private void Awake()
     {
         _cells = new CellItem[_gridSize.x, _gridSize.y];
+        GenerateMesh();
+    }
+
+    private void GenerateMesh()
+    {
+        _mesh = new Mesh();
+        GetComponent<MeshFilter>().mesh = _mesh;
+        _mesh.name = "GridMap";
+
+        _vetices = new Vector3[(_gridSize.x + 1) * (_gridSize.y + 1)];
+        Vector2[] _uv = new Vector2[_vetices.Length];
+        for (int y = 0, i = 0; y < _gridSize.y + 1; y++)
+        {
+            for (int x = 0; x < _gridSize.x + 1; x++, i++)
+            {
+                _vetices[i] = new Vector3(x, y);
+                if ((x / 2 + y / 2) % 2 == 1)
+                    _uv[i] = new Vector2(0, 1);
+                else
+                    _uv[i] = new Vector2(1, 0);
+                //_uv[i] = new Vector2((float)x/ _gridSize.x, (float)y/_gridSize.y);
+            }
+        }
+        _mesh.vertices = _vetices;
+        _mesh.uv = _uv;
+
+        int[] triangles = new int[_gridSize.x * _gridSize.y * 6];
+        for (int y = 0, t = 0, v = 0; y < _gridSize.y; y++, v++)
+        {
+            for (int x = 0; x < _gridSize.x; x++, t+=6, v++)
+            {
+                triangles[t] = v;
+                triangles[t + 1] = triangles[t + 4] = v + _gridSize.x + 1;
+                triangles[t + 2] = triangles[t + 3] = v + 1;
+                triangles[t + 5] = v + _gridSize.x + 2;
+            }
+        } 
+        _mesh.triangles = triangles;
+
+        _mesh.RecalculateNormals();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_vetices == null) return;
+
+        Gizmos.color = Color.red;
+        for (int i = 0; i < _vetices.Length; i++)
+        {
+            Gizmos.DrawSphere(_vetices[i], 0.1f);
+        }
     }
 
     public Vector2Int GetGridSize() => _gridSize;
@@ -22,9 +77,12 @@ public class CellGrid : MonoBehaviour
         try
         {
             if (_cells[position.x, position.y] is SnakeTail) return false;
-
-            if (_cells[position.x, position.y] is Cherry && cellItem is SnakeTail) 
-                CherryEatenAction?.Invoke();
+            if (_cells[position.x, position.y] is Cherry)
+            {
+                if (cellItem is Cherry) return false;
+                if (cellItem is SnakeTail)
+                    CherryEatenAction?.Invoke();
+            }
             _cells[position.x, position.y] = cellItem;
             return true;
         }
