@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,8 @@ public class SceneTransition : MonoBehaviour
 
     private Animator _sceneTransitionAnimator;
     private AsyncOperation _asyncOperation;
+
+    private bool _animationDone = false;
 
     private void Start()
     {
@@ -21,14 +24,22 @@ public class SceneTransition : MonoBehaviour
     public void SwitchToScene(string sceneName)
     {
         _sceneTransitionAnimator.SetTrigger("SceneClosing");
-        _asyncOperation = SceneManager.LoadSceneAsync("Game");
+        _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
         _asyncOperation.allowSceneActivation = false;
     }
 
-    public void CloseScene() => _sceneTransitionAnimator.SetTrigger("SceneClosing");
-
-    public void OnAnimationOver()
+    public async Task CloseScene()
     {
+        _animationDone = false;
+        _sceneTransitionAnimator.SetTrigger("SceneClosing");
+        while (!_animationDone)
+            await Task.Delay(5);
+        _animationDone = false;
+    }
+
+    public void OnTransitionOver()
+    {
+        _animationDone = true;
         if (_asyncOperation != null )
             _asyncOperation.allowSceneActivation = true;
     }

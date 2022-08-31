@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour
@@ -11,9 +12,10 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame() => _sceneTransition.SwitchToScene("Game");
 
-    public void ExitGame()
+    public async void ExitGame()
     {
-        _sceneTransition.CloseScene();
+        var task = _sceneTransition.CloseScene();
+        await Task.WhenAll(task);
         Application.Quit();
     }
 }
