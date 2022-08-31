@@ -1,12 +1,15 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class MenuManager : MonoBehaviour
 {
     private SceneTransition _sceneTransition;
+    private Animator _menuAnimator;
 
     private void Start()
     {
+        _menuAnimator = GetComponent<Animator>();
         _sceneTransition = FindObjectOfType<SceneTransition>();
     }
 

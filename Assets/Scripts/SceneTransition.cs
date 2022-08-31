@@ -24,17 +24,15 @@ public class SceneTransition : MonoBehaviour
     public void SwitchToScene(string sceneName)
     {
         _sceneTransitionAnimator.SetTrigger("SceneClosing");
-        _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-        _asyncOperation.allowSceneActivation = false;
+        _instance._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+        _instance._asyncOperation.allowSceneActivation = false;
     }
 
     public async Task CloseScene()
     {
         _animationDone = false;
         _sceneTransitionAnimator.SetTrigger("SceneClosing");
-        while (!_animationDone)
-            await Task.Delay(5);
-        _animationDone = false;
+        await Task.WhenAll(AnimationDone());
     }
 
     public void OnTransitionOver()
@@ -42,5 +40,13 @@ public class SceneTransition : MonoBehaviour
         _animationDone = true;
         if (_asyncOperation != null )
             _asyncOperation.allowSceneActivation = true;
+    }
+
+    public async Task<bool> AnimationDone()
+    {
+        while (!_animationDone)
+            await Task.Delay(5);
+        _animationDone = false;
+        return true;
     }
 }
