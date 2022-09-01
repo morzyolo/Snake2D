@@ -11,6 +11,13 @@ public class MenuManager : MonoBehaviour
     {
         _menuAnimator = GetComponent<Animator>();
         _sceneTransition = FindObjectOfType<SceneTransition>();
+        ShowMenu();
+    }
+
+    private async void ShowMenu()
+    {
+        await Task.Delay(1250);
+        _menuAnimator.SetTrigger("ShowMenu");
     }
 
     public void StartGame() => _sceneTransition.SwitchToScene("Game");

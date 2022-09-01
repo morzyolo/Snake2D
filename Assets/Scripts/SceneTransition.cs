@@ -9,7 +9,7 @@ public class SceneTransition : MonoBehaviour
 
     private Animator _sceneTransitionAnimator;
     private AsyncOperation _asyncOperation;
-
+    
     private bool _animationDone = false;
 
     private void Start()
