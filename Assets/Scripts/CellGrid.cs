@@ -15,6 +15,7 @@ public class CellGrid : MonoBehaviour
     private void Awake()
     {
         _cells = new CellItem[_gridSize.x, _gridSize.y];
+        Camera.main.transform.position = new Vector3((float)_gridSize.x / 2, (float)_gridSize.y / 2, -10f);
         GenerateMesh();
     }
 
@@ -31,11 +32,11 @@ public class CellGrid : MonoBehaviour
             for (int x = 0; x < _gridSize.x + 1; x++, i++)
             {
                 _vetices[i] = new Vector3(x, y);
-                if ((x / 2 + y / 2) % 2 == 1)
-                    _uv[i] = new Vector2(0, 1);
-                else
-                    _uv[i] = new Vector2(1, 0);
-                //_uv[i] = new Vector2((float)x/ _gridSize.x, (float)y/_gridSize.y);
+                //if ((x / 2 + y / 2) % 2 == 1)
+                //    _uv[i] = new Vector2(0, 1);
+                //else
+                //    _uv[i] = new Vector2(1, 0);
+                _uv[i] = new Vector2((float)(x % _gridSize.x) / _gridSize.x / 2, (float)(y % _gridSize.y) / _gridSize.y / 2);
             }
         }
         _mesh.vertices = _vetices;
