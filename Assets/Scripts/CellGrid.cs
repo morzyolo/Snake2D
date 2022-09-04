@@ -32,11 +32,7 @@ public class CellGrid : MonoBehaviour
             for (int x = 0; x < _gridSize.x + 1; x++, i++)
             {
                 _vetices[i] = new Vector3(x, y);
-                //if ((x / 2 + y / 2) % 2 == 1)
-                //    _uv[i] = new Vector2(0, 1);
-                //else
-                //    _uv[i] = new Vector2(1, 0);
-                _uv[i] = new Vector2((float)(x % _gridSize.x) / _gridSize.x / 2, (float)(y % _gridSize.y) / _gridSize.y / 2);
+                _uv[i] = new Vector2(XYtoUV(x), XYtoUV(y));
             }
         }
         _mesh.vertices = _vetices;
@@ -56,6 +52,15 @@ public class CellGrid : MonoBehaviour
         _mesh.triangles = triangles;
 
         _mesh.RecalculateNormals();
+    }
+
+    private float XYtoUV(int t)
+    {
+        t %= 4;
+
+        if (t == 0 || t == 2) return 0.5f;
+        if (t == 1) return 1f;
+        return 0f;
     }
 
     private void OnDrawGizmos()
