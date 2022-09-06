@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameStateManager : MonoBehaviour
 {
     [SerializeField] private Snake _snake;
     [SerializeField] private InputManager _inputManager;
-    [SerializeField] private Text _startNRestartText;
+    [SerializeField] private SceneTransition _sceneTransition;
+
     [SerializeField] private Text _scoreText;
-    [SerializeField] private Button _startNRestartButton;
+    [SerializeField] private Text _text;
+    [SerializeField] private Button _button;
 
     private int _score;
 
@@ -17,18 +20,19 @@ public class GameStateManager : MonoBehaviour
         CellGrid.CherryEatenAction += AddScore;
 
         _inputManager.gameObject.SetActive(false);
-        _startNRestartButton.onClick.AddListener(StartGame);
+        _button.onClick.AddListener(StartGame);
     }
 
     public void StartGame()
     {
         _score = 0;
-        _scoreText.text = $"Your Score: {_score}";
+        _scoreText.text = $"Score: {_score}";
 
         _inputManager.gameObject.SetActive(true);
-        _startNRestartButton.gameObject.SetActive(false);
-        _startNRestartText.text = "";
+        _button.gameObject.SetActive(false);
+        _text.text = "";
         _snake.MoveSnake();
+        _button.onClick.RemoveAllListeners();
     }
 
     private void AddScore()
@@ -38,9 +42,14 @@ public class GameStateManager : MonoBehaviour
 
     private void LoseGame()
     {
-        _startNRestartText.text = $"Your Score: {_score}";
-        _startNRestartButton.gameObject.SetActive(true);
-        _startNRestartButton.onClick.AddListener(StartGame);
+        _text.text = $"Your Score: {_score}";
+        _button.gameObject.SetActive(true);
+        _button.onClick.AddListener(RestartGame);
+    }
+
+    private void RestartGame()
+    {
+        _sceneTransition.SwitchToScene(SceneManager.GetActiveScene().name);
     }
 
     private void OnDisable()
