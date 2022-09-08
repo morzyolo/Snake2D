@@ -9,7 +9,7 @@ public class FoodSpawner : MonoBehaviour
 
     private void Start()
     {
-        CellGrid.CherryEatenAction += SpawnCherry;
+        CellGrid.CherryEaten += SpawnCherry;
 
         _currentCherry = Instantiate(_cherryPrefab, this.transform);
         SpawnCherry();
@@ -30,6 +30,6 @@ public class FoodSpawner : MonoBehaviour
 
     private void OnDisable()
     {
-        CellGrid.CherryEatenAction -= SpawnCherry;
+        CellGrid.CherryEaten -= SpawnCherry;
     }
 }

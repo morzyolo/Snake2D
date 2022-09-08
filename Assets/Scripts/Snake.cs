@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
-    public static Action GameOverAction;
+    public static Action GameOver;
 
     [SerializeField] private CellGrid _cellGrid;
     [SerializeField] private SnakeTail _snakeTailPrefab;
@@ -17,8 +17,8 @@ public class Snake : MonoBehaviour
 
     private void Start()
     {
-        InputManager.ChangeDirectionAction += ChangeDirection;
-        CellGrid.CherryEatenAction += EatCherry;
+        Input.DirectionChanged += ChangeDirection;
+        CellGrid.CherryEaten += EatCherry;
 
         _tails = new List<SnakeTail>();
         _moveDirection = Vector2Int.right;
@@ -56,7 +56,7 @@ public class Snake : MonoBehaviour
                 canMove = TryReplaceSnakeTail(movePosition);
         } while (canMove);
 
-        GameOverAction?.Invoke();
+        GameOver?.Invoke();
     }
 
     private bool TryInsertNewSnakeTail(Vector2Int spawnPosition)
@@ -91,7 +91,7 @@ public class Snake : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.ChangeDirectionAction -= ChangeDirection;
-        CellGrid.CherryEatenAction -= EatCherry;
+        Input.DirectionChanged -= ChangeDirection;
+        CellGrid.CherryEaten -= EatCherry;
     }
 }

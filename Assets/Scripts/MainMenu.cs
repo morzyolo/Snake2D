@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class MenuManager : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     private SceneTransition _sceneTransition;
     private Animator _menuAnimator;

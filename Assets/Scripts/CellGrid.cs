@@ -4,12 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class CellGrid : MonoBehaviour
 {
-    public static Action CherryEatenAction; 
+    public static Action CherryEaten; 
 
     [SerializeField] private Vector2Int _gridSize;
     private CellItem[,] _cells;
 
-    private Vector3[] _vetices;
     private Mesh _mesh;
 
     private void Awake()
@@ -25,18 +24,18 @@ public class CellGrid : MonoBehaviour
         GetComponent<MeshFilter>().mesh = _mesh;
         _mesh.name = "GridMap";
 
-        _vetices = new Vector3[(_gridSize.x + 1) * (_gridSize.y + 1)];
-        Vector2[] _uv = new Vector2[_vetices.Length];
+        Vector3[] vetices = new Vector3[(_gridSize.x + 1) * (_gridSize.y + 1)];
+        Vector2[] uv = new Vector2[vetices.Length];
         for (int y = 0, i = 0; y < _gridSize.y + 1; y++)
         {
             for (int x = 0; x < _gridSize.x + 1; x++, i++)
             {
-                _vetices[i] = new Vector3(x, y);
-                _uv[i] = new Vector2(XYtoUV(x), XYtoUV(y));
+                vetices[i] = new Vector3(x, y);
+                uv[i] = new Vector2(XYtoUV(x), XYtoUV(y));
             }
         }
-        _mesh.vertices = _vetices;
-        _mesh.uv = _uv;
+        _mesh.vertices = vetices;
+        _mesh.uv = uv;
 
         int[] triangles = new int[_gridSize.x * _gridSize.y * 6];
         for (int y = 0, t = 0, v = 0; y < _gridSize.y; y++, v++)
@@ -63,17 +62,6 @@ public class CellGrid : MonoBehaviour
         return 0f;
     }
 
-    private void OnDrawGizmos()
-    {
-        if (_vetices == null) return;
-
-        Gizmos.color = Color.red;
-        for (int i = 0; i < _vetices.Length; i++)
-        {
-            Gizmos.DrawSphere(_vetices[i], 0.1f);
-        }
-    }
-
     public Vector2Int GetGridSize() => _gridSize;
 
     public void RemoveRefFromCellGrid(Vector2Int position) => _cells[position.x, position.y] = null;
@@ -87,7 +75,7 @@ public class CellGrid : MonoBehaviour
             {
                 if (cellItem is Cherry) return false;
                 if (cellItem is SnakeTail)
-                    CherryEatenAction?.Invoke();
+                    CherryEaten?.Invoke();
             }
             _cells[position.x, position.y] = cellItem;
             return true;
