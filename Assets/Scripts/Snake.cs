@@ -7,11 +7,11 @@ public class Snake : MonoBehaviour
 {
     public static Action GameOver;
 
-    [SerializeField] private CellGrid _cellGrid;
     [SerializeField] private SnakeTail _snakeTailPrefab;
     [SerializeField] private float _moveDelay;
 
     private List<SnakeTail> _tails;
+    private CellGrid _cellGrid;
     private Vector2Int _moveDirection;
     private bool _snakeGrow;
 
@@ -22,7 +22,12 @@ public class Snake : MonoBehaviour
 
         _tails = new List<SnakeTail>();
         _moveDirection = Vector2Int.right;
+        _cellGrid = FindObjectOfType<CellGrid>();
+        GenerateSnake();
+    }
 
+    private void GenerateSnake()
+    {
         Vector2Int gridsize = _cellGrid.GetGridSize();
         Vector2Int spawnPosition = new Vector2Int(2, gridsize.y / 2);
         for (int i = 0; i < 3; i++)
@@ -36,7 +41,7 @@ public class Snake : MonoBehaviour
     {
         bool canMove = true;
         _snakeGrow = false;
-        Vector2Int currentDirection = _moveDirection;
+        Vector2Int currentDirection = _moveDirection; 
 
         do
         {

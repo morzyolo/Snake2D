@@ -1051,9 +1051,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b9326c585cd8447a010f24a66aa368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cellGrid: {fileID: 1362157182}
   _snakeTailPrefab: {fileID: 8138713880481206186, guid: 3de20cde23bc7f9459f82507850a9a15, type: 3}
   _moveDelay: 0.5
+  _head: {fileID: 1822311479, guid: 15439cffe19829a42a8dc6a09a352802, type: 3}
+  _rBody: {fileID: -1449739704, guid: 15439cffe19829a42a8dc6a09a352802, type: 3}
+  _body: {fileID: -851316961, guid: 15439cffe19829a42a8dc6a09a352802, type: 3}
+  _tail: {fileID: 496261845, guid: 15439cffe19829a42a8dc6a09a352802, type: 3}
 --- !u!4 &1132231823
 Transform:
   m_ObjectHideFlags: 0
