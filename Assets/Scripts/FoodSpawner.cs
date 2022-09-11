@@ -9,8 +9,6 @@ public class FoodSpawner : MonoBehaviour
 
     private void Start()
     {
-        CellGrid.CherryEaten += SpawnCherry;
-
         _currentCherry = Instantiate(_cherryPrefab, this.transform);
         SpawnCherry();
     }
@@ -26,6 +24,11 @@ public class FoodSpawner : MonoBehaviour
         } while (!_cellGrid.TrySetInCellGrid(_currentCherry, spawnPosition));
 
         _currentCherry.transform.localPosition = new Vector3(spawnPosition.x, spawnPosition.y);
+    }
+
+    private void OnEnable()
+    {
+        CellGrid.CherryEaten += SpawnCherry;
     }
 
     private void OnDisable()

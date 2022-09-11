@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Input : MonoBehaviour, IBeginDragHandler, IDragHandler
+public class MovementInput : MonoBehaviour, IBeginDragHandler, IDragHandler
 {
     public static Action<Vector2Int> DirectionChanged;
 
@@ -11,25 +11,25 @@ public class Input : MonoBehaviour, IBeginDragHandler, IDragHandler
     {
         if (DirectionChanged == null) return;
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.UpArrow) || UnityEngine.Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
             DirectionChanged.Invoke(Vector2Int.up);
             return;
         }
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow) || UnityEngine.Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             DirectionChanged.Invoke(Vector2Int.left);
             return;
         }
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.DownArrow) || UnityEngine.Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             DirectionChanged.Invoke(Vector2Int.down);
             return;
         }
 
-        if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow) || UnityEngine.Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
             DirectionChanged.Invoke(Vector2Int.right);
             return;

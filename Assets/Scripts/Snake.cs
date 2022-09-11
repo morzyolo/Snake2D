@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Snake : MonoBehaviour
 {
     public static Action GameOver;
@@ -12,17 +13,16 @@ public class Snake : MonoBehaviour
 
     private List<SnakeTail> _tails;
     private CellGrid _cellGrid;
+    private AudioSource _audioSource;
     private Vector2Int _moveDirection;
     private bool _snakeGrow;
 
     private void Start()
     {
-        Input.DirectionChanged += ChangeDirection;
-        CellGrid.CherryEaten += EatCherry;
-
         _tails = new List<SnakeTail>();
         _moveDirection = Vector2Int.right;
         _cellGrid = FindObjectOfType<CellGrid>();
+        _audioSource = GetComponent<AudioSource>();
         GenerateSnake();
     }
 
@@ -90,13 +90,20 @@ public class Snake : MonoBehaviour
     private void EatCherry()
     {
         _snakeGrow = true;
+        _audioSource.Play();
     }
 
     private void ChangeDirection(Vector2Int direction) => _moveDirection = direction;
 
+    private void OnEnable()
+    {
+        MovementInput.DirectionChanged += ChangeDirection;
+        CellGrid.CherryEaten += EatCherry;
+    }
+
     private void OnDisable()
     {
-        Input.DirectionChanged -= ChangeDirection;
+        MovementInput.DirectionChanged -= ChangeDirection;
         CellGrid.CherryEaten -= EatCherry;
     }
 }

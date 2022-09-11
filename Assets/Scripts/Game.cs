@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class Game : MonoBehaviour
 {
     [SerializeField] private Snake _snake;
-    [SerializeField] private Input _inputManager;
+    [SerializeField] private MovementInput _movementInput;
     [SerializeField] private SceneTransition _sceneTransition;
 
     [SerializeField] private Button _button;
@@ -12,15 +12,13 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-        Snake.GameOver += ShowLosing;
-
-        _inputManager.gameObject.SetActive(false);
+        _movementInput.gameObject.SetActive(false);
         _button.onClick.AddListener(StartGame);
     }
 
     public void StartGame()
     {
-        _inputManager.gameObject.SetActive(true);
+        _movementInput.gameObject.SetActive(true);
         _button.gameObject.SetActive(false);
         _text.text = "";
         _snake.MoveSnake();
@@ -36,6 +34,11 @@ public class Game : MonoBehaviour
     private void RestartGame()
     {
         _sceneTransition.SwitchToScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    private void OnEnable()
+    {
+        Snake.GameOver += ShowLosing;
     }
 
     private void OnDisable()

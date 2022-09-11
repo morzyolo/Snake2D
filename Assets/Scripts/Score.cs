@@ -12,7 +12,6 @@ public class Score : MonoBehaviour
     {
         _score = 0;
         _scoreText.text = _score.ToString();
-        CellGrid.CherryEaten += AddScore;
         _animator = GetComponent<Animator>();
     }
 
@@ -21,6 +20,11 @@ public class Score : MonoBehaviour
         _score++;
         _scoreText.text = _score.ToString();
         _animator.SetTrigger("Shake");
+    }
+
+    private void OnEnable()
+    {
+        CellGrid.CherryEaten += AddScore;
     }
 
     private void OnDisable()
