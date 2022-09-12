@@ -17,8 +17,12 @@ public class MainMenu : MonoBehaviour
     private async void ShowMenu()
     {
         await Task.Delay(1250);
-        _menuAnimator.SetTrigger("ShowMenu");
+        _menuAnimator.SetTrigger("Start");
     }
+
+    public void ShowSettingsPanel() => _menuAnimator.SetTrigger("ShowSettings");
+
+    public void ShowMainMenu() => _menuAnimator.SetTrigger("ShowMenu");
 
     public void StartGame() => _sceneTransition.SwitchToScene("Game");
 
