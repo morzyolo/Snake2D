@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
         _menuAnimator.SetTrigger("Start");
     }
 
-    public void ShowSettingsPanel() => _menuAnimator.SetTrigger("ShowSettings");
+    public void ShowSettings() => _menuAnimator.SetTrigger("ShowSettings");
 
     public void ShowMainMenu() => _menuAnimator.SetTrigger("ShowMenu");
 
