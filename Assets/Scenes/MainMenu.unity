@@ -460,9 +460,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1568553956}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: ShowMainMenu
+      - m_Target: {fileID: 574572222}
+        m_TargetAssemblyTypeName: SettingsPanel, Assembly-CSharp
+        m_MethodName: ClosePanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -857,7 +857,7 @@ GameObject:
   - component: {fileID: 574572220}
   - component: {fileID: 574572222}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: SettingsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -937,6 +937,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _menu: {fileID: 1568553956}
+  _soundMixer: {fileID: 1079383737}
+  _effectsMixer: {fileID: 1917135298}
 --- !u!1 &602556788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1363,8 +1365,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1079383736}
+  - component: {fileID: 1079383737}
   m_Layer: 5
-  m_Name: Sounds
+  m_Name: Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1392,6 +1395,19 @@ RectTransform:
   m_AnchoredPosition: {x: 260, y: 110}
   m_SizeDelta: {x: 170, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1079383737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079383735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7834660aaa8cc4399756c1d0ea5caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioMixer: {fileID: -3518383205988685867, guid: c782bec5a2d2137438e62b1f6aed9e94, type: 2}
 --- !u!1 &1115040889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,10 +1571,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 193633258}
   m_HandleRect: {fileID: 2058354583}
   m_Direction: 2
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 5
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: -30
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1646,10 +1662,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 602556789}
   m_HandleRect: {fileID: 637300434}
   m_Direction: 2
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 5
   m_WholeNumbers: 0
-  m_Value: 0.5
+  m_Value: -30
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1738,7 +1754,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1568553956}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: ShowSettingsPanel
+        m_MethodName: ShowSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1951,6 +1967,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1917135297}
+  - component: {fileID: 1917135298}
   m_Layer: 5
   m_Name: Effects
   m_TagString: Untagged
@@ -1980,6 +1997,19 @@ RectTransform:
   m_AnchoredPosition: {x: 260, y: -117}
   m_SizeDelta: {x: 170, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1917135298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917135296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad7834660aaa8cc4399756c1d0ea5caf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioMixer: {fileID: -5126391030057315757, guid: c782bec5a2d2137438e62b1f6aed9e94, type: 2}
 --- !u!1 &2058354582
 GameObject:
   m_ObjectHideFlags: 0
