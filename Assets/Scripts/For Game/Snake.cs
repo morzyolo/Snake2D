@@ -26,6 +26,11 @@ public class Snake : MonoBehaviour
         GenerateSnake();
     }
 
+    private void StartGame()
+    {
+        MoveSnake();
+    }
+
     private void GenerateSnake()
     {
         Vector2Int gridsize = _cellGrid.GetGridSize();
@@ -99,11 +104,13 @@ public class Snake : MonoBehaviour
     {
         MovementInput.DirectionChanged += ChangeDirection;
         CellGrid.CherryEaten += EatCherry;
+        Game.GameStarted += StartGame;
     }
 
     private void OnDisable()
     {
         MovementInput.DirectionChanged -= ChangeDirection;
         CellGrid.CherryEaten -= EatCherry;
+        Game.GameStarted -= StartGame;
     }
 }
