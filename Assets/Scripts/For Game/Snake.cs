@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Snake : MonoBehaviour
 {
-    public static Action GameOver;
-
     [SerializeField] private SnakeTail _snakeTailPrefab;
     [SerializeField] private float _moveDelay;
 
@@ -66,7 +64,7 @@ public class Snake : MonoBehaviour
                 canMove = TryReplaceSnakeTail(movePosition);
         } while (canMove);
 
-        GameOver?.Invoke();
+        Game.GameOver?.Invoke();
     }
 
     private bool TryInsertNewSnakeTail(Vector2Int spawnPosition)

@@ -22,13 +22,20 @@ public class Score : MonoBehaviour
         _animator.SetTrigger("Shake");
     }
 
+    private void ShowResultScore()
+    {
+        _animator.SetTrigger("GameOver");
+    }
+
     private void OnEnable()
     {
         CellGrid.CherryEaten += AddScore;
+        Game.GameOver += ShowResultScore;
     }
 
     private void OnDisable()
     {
         CellGrid.CherryEaten -= AddScore;
+        Game.GameOver -= ShowResultScore;
     }
 }

@@ -6,11 +6,15 @@ using UnityEngine.UI;
 public class Game : MonoBehaviour
 {
     public static Action GameStarted;
+    public static Action GameOver;
 
     [SerializeField] private MovementInput _movementInput;
     [SerializeField] private SceneTransition _sceneTransition;
     [SerializeField] private Button _button;
+    [SerializeField] private Button _restartButton;
+    [SerializeField] private Button _quitButton;
     [SerializeField] private Text _text;
+
     private Animator _animator;
 
     private void Start()
@@ -18,6 +22,8 @@ public class Game : MonoBehaviour
         _movementInput.gameObject.SetActive(false);
         _animator = GetComponent<Animator>();
         _button.onClick.AddListener(StartGame);
+        _restartButton.gameObject.SetActive(false);
+        _quitButton.gameObject.SetActive(false);
     }
 
     public void StartGame()
@@ -31,10 +37,20 @@ public class Game : MonoBehaviour
 
     private void ShowLosing()
     {
+        _movementInput.gameObject.SetActive(false);
         _button.gameObject.SetActive(true);
-        _button.onClick.AddListener(RestartGame);
-        _text.text = "Click to restart";
+        _button.onClick.AddListener(AllowRestart);
+        _text.text = "Click to continue";
         _animator.SetTrigger("GameOver");
+    }
+
+    private void AllowRestart()
+    {
+        _button.onClick.RemoveAllListeners();
+        _restartButton.gameObject.SetActive(true);
+        _restartButton.onClick.AddListener(RestartGame);
+        _quitButton.gameObject.SetActive(true);
+        _quitButton.onClick.AddListener(GoToMenu);
     }
 
     private void RestartGame()
@@ -43,13 +59,15 @@ public class Game : MonoBehaviour
         _sceneTransition.SwitchToScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
+    private void GoToMenu() => _sceneTransition.SwitchToScene("MainMenu");
+
     private void OnEnable()
     {
-        Snake.GameOver += ShowLosing;
+        GameOver += ShowLosing;
     }
 
     private void OnDisable()
     {
-        Snake.GameOver -= ShowLosing;
+        GameOver -= ShowLosing;
     }
 }
