@@ -15,11 +15,16 @@ public class Score : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    private void ShowScore()
+    {
+        _animator.SetTrigger("ShowText");
+    }
+
     private void AddScore()
     {
         _score++;
-        _scoreText.text = _score.ToString();
         _animator.SetTrigger("Shake");
+        _scoreText.text = _score.ToString();
     }
 
     private void ShowResultScore()
@@ -30,12 +35,14 @@ public class Score : MonoBehaviour
     private void OnEnable()
     {
         CellGrid.CherryEaten += AddScore;
+        Game.GameStarted += ShowScore;
         Game.GameOver += ShowResultScore;
     }
 
     private void OnDisable()
     {
         CellGrid.CherryEaten -= AddScore;
+        Game.GameStarted -= ShowScore;
         Game.GameOver -= ShowResultScore;
     }
 }

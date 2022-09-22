@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,23 +30,26 @@ public class Game : MonoBehaviour
     public void StartGame()
     {
         _button.onClick.RemoveAllListeners();
-        _animator.SetTrigger("GameStarted");
+        _animator.SetTrigger("DisappearText");
         _movementInput.gameObject.SetActive(true);
         _button.gameObject.SetActive(false);
         GameStarted?.Invoke();
     }
 
-    private void ShowLosing()
+    private async void ShowLosing()
     {
         _movementInput.gameObject.SetActive(false);
         _button.gameObject.SetActive(true);
         _button.onClick.AddListener(AllowRestart);
+        await Task.Delay(1000);
         _text.text = "Click to continue";
-        _animator.SetTrigger("GameOver");
+        _animator.SetTrigger("AppearText");
     }
 
     private void AllowRestart()
     {
+        _animator.SetTrigger("DisappearText");
+        _animator.SetTrigger("AppearButtons");
         _button.onClick.RemoveAllListeners();
         _restartButton.gameObject.SetActive(true);
         _restartButton.onClick.AddListener(RestartGame);
