@@ -20,8 +20,8 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
-        _movementInput.gameObject.SetActive(false);
         _animator = GetComponent<Animator>();
+        _movementInput.gameObject.SetActive(false);
         _button.onClick.AddListener(StartGame);
         _restartButton.gameObject.SetActive(false);
         _quitButton.gameObject.SetActive(false);
@@ -40,8 +40,8 @@ public class Game : MonoBehaviour
     {
         _movementInput.gameObject.SetActive(false);
         _button.gameObject.SetActive(true);
-        _button.onClick.AddListener(AllowRestart);
         await Task.Delay(1000);
+        _button.onClick.AddListener(AllowRestart);
         _text.text = "Click to continue";
         _animator.SetTrigger("AppearText");
     }
@@ -51,10 +51,10 @@ public class Game : MonoBehaviour
         _animator.SetTrigger("DisappearText");
         _animator.SetTrigger("AppearButtons");
         _button.onClick.RemoveAllListeners();
-        _restartButton.gameObject.SetActive(true);
-        _restartButton.onClick.AddListener(RestartGame);
-        _quitButton.gameObject.SetActive(true);
         _quitButton.onClick.AddListener(GoToMenu);
+        _restartButton.onClick.AddListener(RestartGame);
+        _restartButton.gameObject.SetActive(true);
+        _quitButton.gameObject.SetActive(true);
     }
 
     private void RestartGame()
