@@ -48,4 +48,9 @@ public class SettingsPanel : MonoBehaviour
         _menu.ShowMainMenu();
         SaveSettings();
     }
+
+    public void VisitGHPage()
+    {
+        Application.OpenURL("https://github.com/morzyolo");
+    }
 }
