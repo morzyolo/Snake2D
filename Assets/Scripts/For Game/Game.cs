@@ -15,6 +15,7 @@ public class Game : MonoBehaviour
     [SerializeField] private Button _restartButton;
     [SerializeField] private Button _quitButton;
     [SerializeField] private Text _text;
+    [SerializeField] private AudioClip _sound;
 
     private Animator _animator;
 
@@ -25,6 +26,7 @@ public class Game : MonoBehaviour
         _button.onClick.AddListener(StartGame);
         _restartButton.gameObject.SetActive(false);
         _quitButton.gameObject.SetActive(false);
+
     }
 
     public void StartGame()
@@ -60,10 +62,18 @@ public class Game : MonoBehaviour
     private void RestartGame()
     {
         _button.onClick.RemoveAllListeners();
+        _restartButton.onClick.RemoveAllListeners();
+        _quitButton.onClick.RemoveAllListeners();
         _sceneTransition.SwitchToScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
-    private void GoToMenu() => _sceneTransition.SwitchToScene("MainMenu");
+    private void GoToMenu()
+    {
+        _button.onClick.RemoveAllListeners();
+        _restartButton.onClick.RemoveAllListeners();
+        _quitButton.onClick.RemoveAllListeners();
+        _sceneTransition.SwitchToScene("MainMenu");
+    }
 
     private void OnEnable()
     {

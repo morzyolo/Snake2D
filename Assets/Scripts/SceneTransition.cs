@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Animator))]
 public class SceneTransition : MonoBehaviour
 {
-    private static SceneTransition _instance;
-
     private Animator _sceneTransitionAnimator;
     private AsyncOperation _asyncOperation;
     
@@ -14,9 +12,6 @@ public class SceneTransition : MonoBehaviour
 
     private void Start()
     {
-        if (_instance == null) 
-            _instance = this;
-
         _sceneTransitionAnimator = GetComponent<Animator>();
         _sceneTransitionAnimator.SetTrigger("SceneOpening");
     }
@@ -24,8 +19,8 @@ public class SceneTransition : MonoBehaviour
     public void SwitchToScene(string sceneName)
     {
         _sceneTransitionAnimator.SetTrigger("SceneClosing");
-        _instance._asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-        _instance._asyncOperation.allowSceneActivation = false;
+        _asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+        _asyncOperation.allowSceneActivation = false;
     }
 
     public async Task CloseScene()

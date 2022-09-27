@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] private AudioClip _sound;
     private SceneTransition _sceneTransition;
     private Animator _menuAnimator;
 
