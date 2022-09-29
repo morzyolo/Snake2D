@@ -26,7 +26,7 @@ public class Snake : MonoBehaviour
 
     private void StartGame()
     {
-        MoveSnake();
+        Move();
     }
 
     private void GenerateSnake()
@@ -40,7 +40,7 @@ public class Snake : MonoBehaviour
         }
     }
 
-    public async void MoveSnake()
+    public async void Move()
     {
         bool canMove = true;
         _snakeGrow = false;

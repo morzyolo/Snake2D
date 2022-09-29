@@ -6,7 +6,7 @@ public class MovementInput : MonoBehaviour, IBeginDragHandler, IDragHandler
 {
     public static Action<Vector2Int> DirectionChanged;
 
-    #if UNITY_EDITOR_WIN
+    #if UNITY_STANDALONE_WIN
     private void Update()
     {
         if (DirectionChanged == null) return;

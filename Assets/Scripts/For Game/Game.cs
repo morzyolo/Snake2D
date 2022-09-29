@@ -26,7 +26,6 @@ public class Game : MonoBehaviour
         _button.onClick.AddListener(StartGame);
         _restartButton.gameObject.SetActive(false);
         _quitButton.gameObject.SetActive(false);
-
     }
 
     public void StartGame()
