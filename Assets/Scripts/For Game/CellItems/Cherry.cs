@@ -1,5 +1,5 @@
 using UnityEngine;
 
-public class Cherry : MonoBehaviour, CellItem
+public class Cherry : MonoBehaviour, ICellItem
 {
 }

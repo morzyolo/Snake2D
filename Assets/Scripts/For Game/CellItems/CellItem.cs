@@ -1,3 +1,2 @@
-public interface CellItem 
-{
-}
+public interface ICellItem 
+{}

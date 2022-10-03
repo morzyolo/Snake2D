@@ -11,11 +11,10 @@ public class Game : MonoBehaviour
 
     [SerializeField] private MovementInput _movementInput;
     [SerializeField] private SceneTransition _sceneTransition;
-    [SerializeField] private Button _button;
     [SerializeField] private Button _restartButton;
     [SerializeField] private Button _quitButton;
-    [SerializeField] private Text _text;
-    [SerializeField] private AudioClip _sound;
+    [SerializeField] private Button _continueButton;
+    [SerializeField] private Text _continueText;
 
     private Animator _animator;
 
@@ -23,27 +22,27 @@ public class Game : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _movementInput.gameObject.SetActive(false);
-        _button.onClick.AddListener(StartGame);
+        _continueButton.onClick.AddListener(StartGame);
         _restartButton.gameObject.SetActive(false);
         _quitButton.gameObject.SetActive(false);
     }
 
     public void StartGame()
     {
-        _button.onClick.RemoveAllListeners();
+        _continueButton.onClick.RemoveAllListeners();
         _animator.SetTrigger("DisappearText");
         _movementInput.gameObject.SetActive(true);
-        _button.gameObject.SetActive(false);
+        _continueButton.gameObject.SetActive(false);
         GameStarted?.Invoke();
     }
 
     private async void ShowLosing()
     {
         _movementInput.gameObject.SetActive(false);
-        _button.gameObject.SetActive(true);
+        _continueButton.gameObject.SetActive(true);
         await Task.Delay(1000);
-        _button.onClick.AddListener(AllowRestart);
-        _text.text = "Click to continue";
+        _continueButton.onClick.AddListener(AllowRestart);
+        _continueText.text = "Click to continue";
         _animator.SetTrigger("AppearText");
     }
 
@@ -51,7 +50,7 @@ public class Game : MonoBehaviour
     {
         _animator.SetTrigger("DisappearText");
         _animator.SetTrigger("AppearButtons");
-        _button.onClick.RemoveAllListeners();
+        _continueButton.onClick.RemoveAllListeners();
         _quitButton.onClick.AddListener(GoToMenu);
         _restartButton.onClick.AddListener(RestartGame);
         _restartButton.gameObject.SetActive(true);
@@ -60,7 +59,7 @@ public class Game : MonoBehaviour
 
     private void RestartGame()
     {
-        _button.onClick.RemoveAllListeners();
+        _continueButton.onClick.RemoveAllListeners();
         _restartButton.onClick.RemoveAllListeners();
         _quitButton.onClick.RemoveAllListeners();
         _sceneTransition.SwitchToScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
@@ -68,7 +67,7 @@ public class Game : MonoBehaviour
 
     private void GoToMenu()
     {
-        _button.onClick.RemoveAllListeners();
+        _continueButton.onClick.RemoveAllListeners();
         _restartButton.onClick.RemoveAllListeners();
         _quitButton.onClick.RemoveAllListeners();
         _sceneTransition.SwitchToScene("MainMenu");

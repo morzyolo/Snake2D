@@ -1839,10 +1839,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementInput: {fileID: 828443668}
   _sceneTransition: {fileID: 1856650908}
-  _button: {fileID: 935805759}
   _restartButton: {fileID: 894150143}
   _quitButton: {fileID: 1864304329}
-  _text: {fileID: 476262263}
+  _continueButton: {fileID: 935805759}
+  _continueText: {fileID: 476262263}
 --- !u!95 &2120643791
 Animator:
   serializedVersion: 4

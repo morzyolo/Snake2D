@@ -7,13 +7,13 @@ public class CellGrid : MonoBehaviour
     public static Action CherryEaten; 
 
     [SerializeField] private Vector2Int _gridSize;
-    private CellItem[,] _cells;
+    private ICellItem[,] _cells;
 
     private Mesh _mesh;
 
     private void Awake()
     {
-        _cells = new CellItem[_gridSize.x, _gridSize.y];
+        _cells = new ICellItem[_gridSize.x, _gridSize.y];
         Camera.main.transform.position = new Vector3((float)_gridSize.x / 2, (float)_gridSize.y / 2, -10f);
         GenerateMesh();
     }
@@ -66,7 +66,7 @@ public class CellGrid : MonoBehaviour
 
     public void RemoveRefFromCellGrid(Vector2Int position) => _cells[position.x, position.y] = null;
 
-    public bool TrySetInCellGrid(CellItem cellItem, Vector2Int position)
+    public bool TrySetInCellGrid(ICellItem cellItem, Vector2Int position)
     {
         try
         {

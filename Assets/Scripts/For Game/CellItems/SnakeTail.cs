@@ -1,5 +1,5 @@
 using UnityEngine;
 
-public class SnakeTail : MonoBehaviour, CellItem
+public class SnakeTail : MonoBehaviour, ICellItem
 {
 }

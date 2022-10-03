@@ -8,7 +8,7 @@ public class SceneTransition : MonoBehaviour
     private Animator _sceneTransitionAnimator;
     private AsyncOperation _asyncOperation;
     
-    private bool _animationDone = false;
+    private bool _isAnimationDone = false;
 
     private void Start()
     {
@@ -25,23 +25,23 @@ public class SceneTransition : MonoBehaviour
 
     public async Task CloseScene()
     {
-        _animationDone = false;
+        _isAnimationDone = false;
         _sceneTransitionAnimator.SetTrigger("SceneClosing");
         await Task.WhenAll(AnimationDone());
     }
 
     public void OnTransitionOver()
     {
-        _animationDone = true;
+        _isAnimationDone = true;
         if (_asyncOperation != null )
             _asyncOperation.allowSceneActivation = true;
     }
 
     public async Task<bool> AnimationDone()
     {
-        while (!_animationDone)
+        while (!_isAnimationDone)
             await Task.Delay(5);
-        _animationDone = false;
+        _isAnimationDone = false;
         return true;
     }
 }
