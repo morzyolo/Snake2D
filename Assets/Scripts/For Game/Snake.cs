@@ -9,7 +9,7 @@ public class Snake : MonoBehaviour
     [SerializeField] private SnakeTail _snakeTailPrefab;
     [SerializeField] private float _moveDelay;
 
-    private List<SnakeTail> _tails;
+    private LinkedList<SnakeTail> _tails;
     private CellGrid _cellGrid;
     private AudioSource _audioSource;
     private Vector2Int _moveDirection;
@@ -17,7 +17,7 @@ public class Snake : MonoBehaviour
 
     private void Start()
     {
-        _tails = new List<SnakeTail>();
+        _tails = new LinkedList<SnakeTail>();
         _moveDirection = Vector2Int.right;
         _cellGrid = FindObjectOfType<CellGrid>();
         _audioSource = GetComponent<AudioSource>();
@@ -52,8 +52,9 @@ public class Snake : MonoBehaviour
             if (Vector2Int.Scale(currentDirection, _moveDirection) == Vector2Int.zero)
                 currentDirection = _moveDirection;
 
-            Vector2Int movePosition = new Vector2Int((int)_tails[0].transform.position.x + currentDirection.x,
-                (int)_tails[0].transform.position.y + currentDirection.y);
+            Transform firstTailTransform = _tails.First.Value.transform;
+            Vector2Int movePosition = new Vector2Int((int)firstTailTransform.position.x + currentDirection.x,
+                (int)firstTailTransform.position.y + currentDirection.y);
 
             if (_snakeGrow)
             {
@@ -74,19 +75,19 @@ public class Snake : MonoBehaviour
         if (!_cellGrid.TrySetInCellGrid(snakeTail, spawnPosition)) return false;
         
         snakeTail.transform.localPosition = new Vector3(spawnPosition.x, spawnPosition.y);
-        _tails.Insert(0, snakeTail);
+        _tails.AddFirst(snakeTail);
         return true;
     }
 
     private bool TryReplaceSnakeTail(Vector2Int placePosition)
     {
-        SnakeTail lastTail = _tails[^1];
+        SnakeTail lastTail = _tails.Last.Value;
         _cellGrid.RemoveRefFromCellGrid(new Vector2Int((int)lastTail.transform.position.x, (int)lastTail.transform.position.y));
         if (!_cellGrid.TrySetInCellGrid(lastTail, placePosition)) return false;
 
         lastTail.transform.localPosition = new Vector3(placePosition.x, placePosition.y);
-        _tails.RemoveAt(_tails.Count - 1);
-        _tails.Insert(0, lastTail);
+        _tails.RemoveLast();
+        _tails.AddFirst(lastTail);
         return true;
     }
 
