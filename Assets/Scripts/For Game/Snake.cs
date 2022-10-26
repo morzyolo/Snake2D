@@ -72,7 +72,11 @@ public class Snake : MonoBehaviour
     {
         SnakeTail snakeTail = Instantiate(_snakeTailPrefab, this.transform);
 
-        if (!_cellGrid.TrySetInCellGrid(snakeTail, spawnPosition)) return false;
+        if (!_cellGrid.TrySetInCellGrid(snakeTail, spawnPosition))
+        {
+            snakeTail.gameObject.SetActive(false);
+            return false;
+        }
         
         snakeTail.transform.localPosition = new Vector3(spawnPosition.x, spawnPosition.y);
         _tails.AddFirst(snakeTail);
