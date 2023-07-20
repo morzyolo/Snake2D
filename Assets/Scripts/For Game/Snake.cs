@@ -24,7 +24,7 @@ public class Snake : MonoBehaviour
         GenerateSnake();
     }
 
-    private void StartGame()
+	private void StartGame()
     {
         Move();
     }
