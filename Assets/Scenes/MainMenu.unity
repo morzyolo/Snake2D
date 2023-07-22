@@ -1597,6 +1597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioMixer: {fileID: -3518383205988685867, guid: c782bec5a2d2137438e62b1f6aed9e94, type: 2}
+  _slider: {fileID: 1231139738}
 --- !u!1 &1115040889
 GameObject:
   m_ObjectHideFlags: 0
@@ -1934,6 +1935,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1296743902}
   m_CullTransparentMesh: 1
+--- !u!114 &1423933143 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5671650373404119008, guid: b0583f46e949fa649b5fa1cb7ae6dbc0, type: 3}
+  m_PrefabInstance: {fileID: 5671650374527803411}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1adee9f28eddd894e8b0ed80c83485d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1468139401
 GameObject:
   m_ObjectHideFlags: 0
@@ -2183,10 +2195,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f4019f19878fe48b39b4584acfff57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sound: {fileID: 8300000, guid: 599aee3823f3bce43b519eb1b1a3699a, type: 3}
   _startButton: {fileID: 512989121}
   _settingsButton: {fileID: 1490261242}
-  _quitButton: {fileID: 563591857}
+  _exitButton: {fileID: 563591857}
+  _sceneTransition: {fileID: 1423933143}
 --- !u!95 &1568553957
 Animator:
   serializedVersion: 4
@@ -2484,6 +2496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioMixer: {fileID: -5126391030057315757, guid: c782bec5a2d2137438e62b1f6aed9e94, type: 2}
+  _slider: {fileID: 1295486882}
 --- !u!1 &2058354582
 GameObject:
   m_ObjectHideFlags: 0
