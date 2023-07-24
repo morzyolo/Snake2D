@@ -1,85 +1,45 @@
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
-[RequireComponent(typeof(Animator))]
 public class Game : MonoBehaviour
 {
-    public static Action GameStarted;
-    public static Action GameOver;
+	public event Action GameStarted;
 
-    [SerializeField] private MovementInput _movementInput;
-    [SerializeField] private SceneTransition _sceneTransition;
-    [SerializeField] private Button _restartButton;
-    [SerializeField] private Button _quitButton;
-    [SerializeField] private Button _continueButton;
-    [SerializeField] private Text _continueText;
+	[SerializeField] private GUI _gui;
+	[SerializeField] private Snake _snake;
+	[SerializeField] private SceneTransition _sceneTransition;
 
-    private Animator _animator;
+	[Header("Strings")]
+	[SerializeField] private string _gameSceneName = "Game";
+	[SerializeField] private string _mainMenuSceneName = "MainMenu";
 
-    private void Start()
-    {
-        _animator = GetComponent<Animator>();
-        _movementInput.gameObject.SetActive(false);
-        _continueButton.onClick.AddListener(StartGame);
-        _restartButton.gameObject.SetActive(false);
-        _quitButton.gameObject.SetActive(false);
-    }
 
-    public void StartGame()
-    {
-        _continueButton.onClick.RemoveAllListeners();
-        _animator.SetTrigger("DisappearText");
-        _movementInput.gameObject.SetActive(true);
-        _continueButton.gameObject.SetActive(false);
-        GameStarted?.Invoke();
-    }
+	private void Start() => _gui.ShowStartScreen();
 
-    private async void ShowLosing()
-    {
-        _movementInput.gameObject.SetActive(false);
-        _continueButton.gameObject.SetActive(true);
-        await Task.Delay(1000);
-        _continueButton.onClick.AddListener(AllowRestart);
-        _continueText.text = "Click to continue";
-        _animator.SetTrigger("AppearText");
-    }
+	private void StartGame() => GameStarted?.Invoke();
 
-    private void AllowRestart()
-    {
-        _animator.SetTrigger("DisappearText");
-        _animator.SetTrigger("AppearButtons");
-        _continueButton.onClick.RemoveAllListeners();
-        _quitButton.onClick.AddListener(GoToMenu);
-        _restartButton.onClick.AddListener(RestartGame);
-        _restartButton.gameObject.SetActive(true);
-        _quitButton.gameObject.SetActive(true);
-    }
+	private void ShowLosing() => _gui.ShowLosing();
 
-    private void RestartGame()
-    {
-        _continueButton.onClick.RemoveAllListeners();
-        _restartButton.onClick.RemoveAllListeners();
-        _quitButton.onClick.RemoveAllListeners();
-        _sceneTransition.SwitchToScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-    }
+	public void RestartGame() => GoToScene(_gameSceneName);
 
-    private void GoToMenu()
-    {
-        _continueButton.onClick.RemoveAllListeners();
-        _restartButton.onClick.RemoveAllListeners();
-        _quitButton.onClick.RemoveAllListeners();
-        _sceneTransition.SwitchToScene("MainMenu");
-    }
+	public void QuitToMenu() => GoToScene(_mainMenuSceneName);
 
-    private void OnEnable()
-    {
-        GameOver += ShowLosing;
-    }
+	private void GoToScene(string sceneName)
+		=> _sceneTransition.SwitchToScene(sceneName);
 
-    private void OnDisable()
-    {
-        GameOver -= ShowLosing;
-    }
+	private void OnEnable()
+	{
+		_gui.GameStarted += StartGame;
+		_snake.Hited += ShowLosing;
+		_gui.RestartButtonClicked += RestartGame;
+		_gui.QuitButtonClicked += QuitToMenu;
+	}
+
+	private void OnDisable()
+	{
+		_gui.GameStarted -= StartGame;
+		_snake.Hited -= ShowLosing;
+		_gui.RestartButtonClicked -= RestartGame;
+		_gui.QuitButtonClicked -= QuitToMenu;
+	}
 }
