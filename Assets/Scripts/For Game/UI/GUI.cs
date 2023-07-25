@@ -37,6 +37,7 @@ public class GUI : MonoBehaviour
 	public void StartGame()
 	{
 		_continueButton.onClick.RemoveListener(StartGame);
+		_continueButton.GetComponent<Image>().raycastTarget = false;
 		_animator.SetTrigger(_disappearTextTriggerName);
 		_score.ShowScore();
 		GameStarted?.Invoke();
@@ -45,6 +46,7 @@ public class GUI : MonoBehaviour
 	public void ShowLosing()
 	{
 		_continueButton.onClick.AddListener(ShowOptions);
+		_continueButton.GetComponent<Image>().raycastTarget = true;
 		_continueText.text = _losingText;
 		_animator.SetTrigger(_appearTextTriggerName);
 		_score.ShowResultScore();
