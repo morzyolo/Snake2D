@@ -21,13 +21,7 @@ public class Mixer : MonoBehaviour
 
 	public void ChangeVolume(float volume) => Volume = volume;
 
-	private void OnEnable()
-	{
-		_slider.onValueChanged.AddListener(ChangeVolume);
-	}
+	private void OnEnable() => _slider.onValueChanged.AddListener(ChangeVolume);
 
-	private void OnDisable()
-	{
-		_slider.onValueChanged.RemoveListener(ChangeVolume);
-	}
+	private void OnDisable() => _slider.onValueChanged.RemoveListener(ChangeVolume);
 }

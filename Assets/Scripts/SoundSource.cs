@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Sound : MonoBehaviour
+public class SoundSource : MonoBehaviour
 {
 	private void Awake()
 	{
-		Sound[] sound = FindObjectsOfType<Sound>();
+		SoundSource[] sound = FindObjectsOfType<SoundSource>();
 
 		if (sound != null && sound.Length > 1)
 			Destroy(this.gameObject);

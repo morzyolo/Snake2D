@@ -9,8 +9,6 @@ public class GUI : MonoBehaviour
 	public event Action QuitButtonClicked;
 	public event Action RestartButtonClicked;
 
-	[SerializeField] private Score _score;
-
 	[Header("UI elements")]
 	[SerializeField] private Button _continueButton;
 	[SerializeField] private Button _restartButton;
@@ -39,7 +37,6 @@ public class GUI : MonoBehaviour
 		_continueButton.onClick.RemoveListener(StartGame);
 		_continueButton.GetComponent<Image>().raycastTarget = false;
 		_animator.SetTrigger(_disappearTextTriggerName);
-		_score.ShowScore();
 		GameStarted?.Invoke();
 	}
 
@@ -49,7 +46,6 @@ public class GUI : MonoBehaviour
 		_continueButton.GetComponent<Image>().raycastTarget = true;
 		_continueText.text = _losingText;
 		_animator.SetTrigger(_appearTextTriggerName);
-		_score.ShowResultScore();
 	}
 
 	public void ShowOptions()

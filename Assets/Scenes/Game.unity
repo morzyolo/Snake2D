@@ -499,7 +499,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &582269593
 GameObject:
@@ -5470,7 +5470,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &643615410
 MonoBehaviour:
@@ -6299,7 +6299,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1132231824
 AudioSource:
@@ -6651,6 +6651,55 @@ MonoBehaviour:
   _cellGrid: {fileID: 1362157182}
   _snake: {fileID: 1132231822}
   _cherryPrefab: {fileID: -2051970404146607490, guid: 7a53baf53bb3c534d94019c192376436, type: 3}
+--- !u!1 &1805868534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1805868535}
+  - component: {fileID: 1805868536}
+  m_Layer: 0
+  m_Name: Score
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1805868535
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805868534}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1805868536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805868534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eca4660100112b4892462036f634d5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _game: {fileID: 1850483835}
+  _snake: {fileID: 1132231822}
+  _observer: {fileID: 1964681829}
+  _confettiParticles: {fileID: 610524416}
+  _showScoreResultLength: 1.5
 --- !u!1 &1833070518
 GameObject:
   m_ObjectHideFlags: 0
@@ -6945,7 +6994,7 @@ GameObject:
   - component: {fileID: 1964681829}
   - component: {fileID: 1964681830}
   m_Layer: 5
-  m_Name: Score
+  m_Name: ScoreObserver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6987,13 +7036,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cee8f4e0231d2742a52a2b8e54d2d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _game: {fileID: 1850483835}
-  _snake: {fileID: 1132231822}
-  _confetti: {fileID: 610524416}
-  _showScoreResultLength: 1.7
   _scoreText: {fileID: 1833070521}
   _maxScoreText: {fileID: 1472309564}
-  _maxScoreName: MaxScore
   _showTriggerName: Show
   _shakeTriggerName: Shake
   _gameOverTriggerName: GameOver
@@ -7093,7 +7137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f51e8d66d3d04648ac007a9efae20e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _score: {fileID: 1964681829}
   _continueButton: {fileID: 935805759}
   _restartButton: {fileID: 894150143}
   _quitButton: {fileID: 1864304329}
